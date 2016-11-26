@@ -1,0 +1,7 @@
+cmd:
+
+javac filename.java
+
+java filename [args]
+
+cls - очистка консоли !!!
