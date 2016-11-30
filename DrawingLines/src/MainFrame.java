@@ -17,8 +17,7 @@ public class MainFrame extends JFrame {
 
 	public void initFrame()
 	{
-		//this.setSize(600, 400);
-		this.setTitle("My first frame");
+		this.setTitle("lab4; var-20108");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		/*
 		* DO_NOTHING_ON_CLOSE
@@ -74,7 +73,6 @@ public class MainFrame extends JFrame {
 		//JList:
 		JList lst = new JList(new String[]{"x = 1 R", "x = 2 R", "x = -1 R", "x = -2 R"});
 		panelRight.add(lst);
-
 
 		JTextField txt = new JTextField();
 		this.add(txt, BorderLayout.SOUTH);
