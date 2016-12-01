@@ -26,7 +26,6 @@ public class GrahpicsPanel extends JPanel {
 
 	public void setRadius(int radius)
 	{
-
 		this.radius = radius;
 	}
 
@@ -39,23 +38,21 @@ public class GrahpicsPanel extends JPanel {
 	public void paint(Graphics g)
 	{
 		super.paint(g);
-		this.setBackground(new Color(255,255,153));
+		this.setBackground(new Color(255, 255, 153));
 
 		Graphics2D g2 = (Graphics2D) g;
 
 		double length = 0.7 * getHeight();
-
 		Point center = new Point(getWidth() / 2, getHeight() / 2);
-		Line lineOY = new Line(center.getX(), center.getY() - length/2, center.getX(), center.getY() + length/2);
-		Line lineOX = new Line(center.getX() - length/2, center.getY(), center.getX() + length/2, center.getY());
 
+		//BlueArea:
 		g2.setColor(new Color(32, 132, 67));
 
 		for (int x = (int)(-length/2); x <= length/2; x++)
 		{
 			for (int y = (int) (-length / 2); y <= length / 2; y++)
 			{
-				if (BlueArea.isInArea(new Point(x, y), radius))
+				if (BlueArea.isInArea(new Point(x, y), this))
 				{
 					g2.fill(new Circle((int) center.getX() + x, (int) center.getY() - y, 1));
 				}
@@ -68,8 +65,9 @@ public class GrahpicsPanel extends JPanel {
 		{
 			Circle circle = (Circle) circleIterator.next();
 
-			if(circle.isRight()) {
-				g2.setColor(Color.MAGENTA);
+			if(BlueArea.isInArea(BlueArea.pointToBlueArea(circle.getCenterPoint(), this), this))
+			{
+				g2.setColor(Color.CYAN);
 			}
 			else
 			{
@@ -78,6 +76,10 @@ public class GrahpicsPanel extends JPanel {
 
 			g2.fill(circle);
 		}
+
+		//Lines:
+		Line lineOY = new Line(center.getX(), center.getY() - length/2, center.getX(), center.getY() + length/2);
+		Line lineOX = new Line(center.getX() - length/2, center.getY(), center.getX() + length/2, center.getY());
 
 		g2.setColor(Color.BLACK);
 		g2.draw(lineOY);

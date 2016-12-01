@@ -6,21 +6,20 @@ public class Circle extends Ellipse2D {
 
 	private Point point; // center of circle
 	private double radius;
-	public boolean right;
 
+	public Circle()
 	{
-		right = false;
-	}
-	public Circle() {
 		point = new Point();
 	}
 
-	public Circle(int x, int y, double radius) {
+	public Circle(int x, int y, double radius)
+	{
 		point = new Point(x, y);
 		this.radius = radius;
 	}
 
-	public Circle(Point point,  double radius) {
+	public Circle(Point point, double radius)
+	{
 		this.point = point;
 		this.radius = radius;
 	}
@@ -30,12 +29,9 @@ public class Circle extends Ellipse2D {
 		return radius;
 	}
 
-	public void setRadius(double radius) {
+	public void setRadius(double radius)
+	{
 		this.radius = radius;
-	}
-
-	public boolean isRight() {
-		return right;
 	}
 
 	public Point getCenterPoint()

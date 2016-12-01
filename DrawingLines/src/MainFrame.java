@@ -12,90 +12,59 @@ public class MainFrame extends JFrame {
 	public MainFrame()
 	{
 		initFrame();
-		//resize(600, 401); // Странная констукция
 	}
 
 	public void initFrame()
 	{
+		this.setSize(600, 400);
 		this.setTitle("lab4; var-20108");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		/*
-		* DO_NOTHING_ON_CLOSE
-		* HIDE_ON_CLOSE
-		* DISPOSE_ON_CLOSE
-		* EXIT_ON_CLOSE
-		*/
-
 		this.setLocationRelativeTo(null); //open window in center of screen
 		this.setVisible(true);
+
 		this.setLayout(new BorderLayout());
 
-		GrahpicsPanel grahpicsPanel = new GrahpicsPanel();
-		grahpicsPanel.setBackground(Color.CYAN); // ?!!!
+		GrahpicsPanel gp = new GrahpicsPanel();
+		JTextField txt = new JTextField();
+		JSpinner spinner = new JSpinner();
+		spinner.setValue(100);
 
-
-		grahpicsPanel.addMouseListener(new MouseAdapter()
-		{
-			@Override
-			public void mouseClicked(MouseEvent e)
-			{
-				Point coursor = e.getPoint();
-				System.out.println("Component coords: x = " + coursor.getX() + ", y = " + coursor.getY());
-
-				//Преобразование координат
-				Point center = new Point(grahpicsPanel.getWidth() / 2, grahpicsPanel.getHeight() / 2);
-				Point selectedPoint = new Point((int) coursor.getX() - (int) center.getX(), -((int) coursor.getY() - (int) center.getY()));
-
-				//Создаем новый круг
-				Circle goodCircle = new Circle(coursor, 20); //Circle goodCircle = new Circle(selectedPoint, 120);
-
-				if(BlueArea.isInArea(selectedPoint, grahpicsPanel.getRadius()))
-				{
-					goodCircle.right = true;
-				}
-
-				ThreadCircle threadCircle = new ThreadCircle(grahpicsPanel, goodCircle); //!
-				threadCircle.start(); //?!
-
-				grahpicsPanel.addNewCircle(goodCircle);
-
-				System.out.println("Component coords: x = " + selectedPoint.getX() + ", y = " + selectedPoint.getY());
-			}
-		});
-
-		this.add(grahpicsPanel, BorderLayout.CENTER);
+		Button btn = new Button("Select Point");
+		JList lst = new JList(new String[]{"x = 1 R", "x = 2 R", "x = -1 R", "x = -2 R"});
 
 		JPanel panelRight = new JPanel();
 		panelRight.setLayout(new BoxLayout(panelRight, BoxLayout.PAGE_AXIS));
 
-		Point myFavoritePoint = new Point();
-
-		//JList:
-		JList lst = new JList(new String[]{"x = 1 R", "x = 2 R", "x = -1 R", "x = -2 R"});
-		panelRight.add(lst);
-
-		JTextField txt = new JTextField();
+		this.add(panelRight, BorderLayout.EAST);
+		this.add(gp, BorderLayout.CENTER);
 		this.add(txt, BorderLayout.SOUTH);
 
-		this.add(panelRight, BorderLayout.EAST);
+		panelRight.add(lst);
 
 		JCheckBox checkBoxM = new JCheckBox();
-		checkBoxM.setText("y <= 0");
-
 		JCheckBox checkBox0 = new JCheckBox();
-		checkBox0.setText("y += R");
 		JCheckBox checkBox1 = new JCheckBox();
-		checkBox1.setText("y += 2R");
 		JCheckBox checkBox2 = new JCheckBox();
-		checkBox2.setText("y += 4R");
 
 		panelRight.add(checkBoxM);
 		panelRight.add(checkBox0);
 		panelRight.add(checkBox1);
 		panelRight.add(checkBox2);
 
-		Button btn = new Button("Select Point");
-		btn.addActionListener(new ActionListener() {
+		panelRight.add(btn);
+		panelRight.add(spinner);
+
+		checkBoxM.setText("y <= 0");
+		checkBox0.setText("y += R");
+		checkBox1.setText("y += 2R");
+		checkBox2.setText("y += 4R");
+
+		//Кнопка, которую выбрали через интерфейс
+		Point selectedTextPoint = new Point();
+
+		//Events:
+		btn.addActionListener(new ActionListener()
+		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//x:
@@ -104,16 +73,16 @@ public class MainFrame extends JFrame {
 
 				switch (lst.getSelectedIndex()) {
 					case 0:
-						myFavoritePoint.x = grahpicsPanel.getRadius();
+						selectedTextPoint.x = gp.getRadius();
 						break;
 					case 1:
-						myFavoritePoint.x = 2 * grahpicsPanel.getRadius();
+						selectedTextPoint.x = 2 * gp.getRadius();
 						break;
 					case 2:
-						myFavoritePoint.x = -grahpicsPanel.getRadius();
+						selectedTextPoint.x = -gp.getRadius();
 						break;
 					case 3:
-						myFavoritePoint.x = -2 * grahpicsPanel.getRadius();
+						selectedTextPoint.x = -2 * gp.getRadius();
 						break;
 				}
 
@@ -124,53 +93,71 @@ public class MainFrame extends JFrame {
 				if (checkBox2.isSelected()) k += 4;
 				if (checkBoxM.isSelected()) k *= -1;
 
-				myFavoritePoint.y = k * grahpicsPanel.getRadius();
+				selectedTextPoint.y = k * gp.getRadius();
 
 				System.out.println("hello world!");
-				txt.setText("Your point: (" + myFavoritePoint.getX() + ", " + myFavoritePoint.getY() + ")");
+				txt.setText("Your point: (" + selectedTextPoint.getX() + ", " + selectedTextPoint.getY() + ")");
 				repaint();
 
 
 				// :
-				// myFavoritePoint
+				// selectedTextPoint
 
 				//Преобразование координат
-				Point center = new Point(grahpicsPanel.getWidth() / 2, grahpicsPanel.getHeight() / 2);
-				Point selectedPoint = myFavoritePoint; // Она и есть
-				Point pointOnR2 = new Point((int) myFavoritePoint.getX() + (int) center.getX(), ((int) -myFavoritePoint.getY() + (int) center.getY()));
+				Point center = new Point(gp.getWidth() / 2, gp.getHeight() / 2);
+				Point selectedPoint = selectedTextPoint; // Она и есть
+				Point pointOnR2 = new Point((int) selectedTextPoint.getX() + (int) center.getX(), ((int) -selectedTextPoint.getY() + (int) center.getY()));
 
 				//Создаем новый круг
-				Circle goodCircle = new Circle(pointOnR2, 20); //Circle goodCircle = new Circle(selectedPoint, 120);
+				Circle goodCircle = new Circle(pointOnR2, 5);
 
-				if(BlueArea.isInArea(selectedPoint, grahpicsPanel.getRadius()))
-				{
-					goodCircle.right = true; //myFavoritePoint
-				}
-
-				ThreadCircle threadCircle = new ThreadCircle(grahpicsPanel, goodCircle); //!
+				//Новый поток
+				ThreadCircle threadCircle = new ThreadCircle(gp, goodCircle); //!
 				threadCircle.start();
 
-				grahpicsPanel.addNewCircle(goodCircle); //?
+				gp.addNewCircle(goodCircle); //?
 
 				System.out.println("Component coords: x = " + selectedPoint.getX() + ", y = " + selectedPoint.getY());
 			}
 		});
-		panelRight.add(btn);
 
-		JSpinner spinner = new JSpinner();
-		spinner.setValue(100);
-		spinner.addChangeListener(new ChangeListener() {
+		spinner.addChangeListener(new ChangeListener()
+		{
 			@Override
-			public void stateChanged(ChangeEvent e) {
+			public void stateChanged(ChangeEvent e)
+			{
 				int value = (int) spinner.getValue();
 				if (value <= 2) spinner.setValue(100);
 
-				grahpicsPanel.setRadius((int) spinner.getValue());
+				gp.setRadius((int) spinner.getValue());
 				repaint();
 			}
 		});
-		panelRight.add(spinner);
 
-		this.setSize(600, 400);
+		gp.addMouseListener(new MouseAdapter()
+		{
+			@Override
+			public void mousePressed(MouseEvent e)
+			{
+				Point cursor = e.getPoint();
+				System.out.println("Component coords: x = " + cursor.getX() + ", y = " + cursor.getY());
+
+				//Transformation coordinates
+				Point bluePoint = BlueArea.pointToBlueArea(cursor, gp);
+
+				txt.setText("Your point: (" + bluePoint.getX() + ", " + bluePoint.getY() + ")");
+
+				//Create new Circle:
+				Circle newCircle = new Circle(cursor, 5);
+
+				//Create new Thread:
+				ThreadCircle threadCircle = new ThreadCircle(gp,  newCircle);
+				threadCircle.start();
+
+				gp.addNewCircle( newCircle);
+
+				System.out.println("Component coords: x = " + bluePoint.getX() + ", y = " + bluePoint.getY()); //debug
+			}
+		});
 	}
 }

@@ -28,11 +28,11 @@ public class ThreadCircle extends Thread
 		}
 
 		//111
-		Point coursor = circle.getCenterPoint();
+		Point cursor = circle.getCenterPoint();
 
 		//Преобразование координат
 		Point center = new Point(gp.getWidth() / 2, gp.getHeight() / 2);
-		Point selectedPoint = new Point((int) coursor.getX() - (int) center.getX(), -((int) coursor.getY() - (int) center.getY()));
+		Point selectedPoint = new Point((int) cursor.getX() - (int) center.getX(), -((int) cursor.getY() - (int) center.getY()));
 
 		//222
 
@@ -48,9 +48,7 @@ public class ThreadCircle extends Thread
 			}
 		}
 
-
-
-		while (BlueArea.isInArea(selectedPoint, gp.getRadius()))
+		while (BlueArea.isInArea(selectedPoint, gp))
 		{
 			System.out.println("0");
 
