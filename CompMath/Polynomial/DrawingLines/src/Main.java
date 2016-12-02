@@ -1,9 +1,12 @@
 import java.lang.*;
+import java.util.Vector;
 
-public class Main {
+import static java.lang.Math.*;
 
-	public static void main(String[] args) {
-
+public class Main
+{
+	public static void main(String[] args)
+	{
 		MainFrame frame = new MainFrame();
 	}
 }

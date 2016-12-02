@@ -4,22 +4,22 @@ import java.util.Iterator;
 import java.util.Vector;
 
 import static java.lang.Math.PI;
-import static java.lang.Math.sin;
+import static java.lang.Math.*;
 
 public class GrahpicsPanel extends JPanel {
 
 	private int unit;
 	private Vector<Circle> circleVector;
 
-	public GrahpicsPanel()
+	private Plane plane;
+	//public int num; //!
+
+	public GrahpicsPanel(Plane plane)
 	{
 		circleVector = new Vector<Circle>();
 		unit = 20;
-	}
-
-	public GrahpicsPanel(int unit)
-	{
-		this.unit = unit;
+		//num = 0;
+		this.plane = plane;
 	}
 
 	public void addNewCircle(Circle newCircle)
@@ -40,7 +40,7 @@ public class GrahpicsPanel extends JPanel {
 	@Override
 	public void paint(Graphics g)
 	{
-		super.paint(g); //Что оно делает?
+		super.paint(g);
 		setBackground(Color.WHITE);
 
 		Graphics2D g2 = (Graphics2D) g;
@@ -62,8 +62,6 @@ public class GrahpicsPanel extends JPanel {
 
 		for (int k = 1; k <= N; k++)
 		{
-			//if (unit * k > length  - 10) break; //?!
-
 			g2.setColor(Color.BLACK);
 			g2.draw(new Line(center.getX() + unit * k, center.getY() - 2, center.getX() + unit * k, center.getY() + 2));
 			g2.draw(new Line(center.getX() - unit * k, center.getY() - 2, center.getX() - unit * k, center.getY() + 2));
@@ -75,11 +73,12 @@ public class GrahpicsPanel extends JPanel {
 		//Function:
 
 		//f(x) = sin(x) + x
+
 		g2.setColor(Color.GREEN);
 		for (int x1 = (int)(-length/2); x1 <= length/2; x1++)
 		{
 			double x = (double) x1 / (double) unit;
-			double y = sin(x) + x;
+			double y = Functions.func(x, plane.num); // sin(x) + x;
 			int y1 = (int) (y * unit);
 			g2.fill(new Circle((int)center.getX() + x1, (int)center.getY() - y1, 1)); //Странный способ ставить точки
 		}
@@ -88,7 +87,8 @@ public class GrahpicsPanel extends JPanel {
 		g2.setColor(Color.MAGENTA);
 		
 		//FUN:
-		Vector<Double> pointVector = new Vector<Double>();
+
+		Vector<Double> pointVector = new Vector<Double>(); //plane.xPointVector
 		pointVector.add(PI*0/4);
 		pointVector.add(PI*1/4);
 		pointVector.add(PI*2/4);
