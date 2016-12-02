@@ -71,8 +71,10 @@ public class GrahpicsPanel extends JPanel {
 		}
 
 		//Function:
+		//f(x)
 
-		//f(x) = sin(x) + x
+		int x1Last = 0, y1Last = 0;
+		boolean firstPoint = true;
 
 		g2.setColor(Color.GREEN);
 		for (int x1 = (int)(-length/2); x1 <= length/2; x1++)
@@ -80,22 +82,27 @@ public class GrahpicsPanel extends JPanel {
 			double x = (double) x1 / (double) unit;
 			double y = Functions.func(x, plane.num); // sin(x) + x;
 			int y1 = (int) (y * unit);
-			g2.fill(new Circle((int)center.getX() + x1, (int)center.getY() - y1, 1)); //Странный способ ставить точки
+
+			if(!firstPoint)
+				g2.draw(new Line((int)center.getX() + x1Last, (int)center.getY() - y1Last, (int)center.getX() + x1, (int)center.getY() - y1));
+			else
+				firstPoint = false;
+
+			x1Last = x1;
+			y1Last = y1;
 		}
 
 		//fi(x) = Pn(x)
 		g2.setColor(Color.MAGENTA);
 		
 		//FUN:
+		Vector<Double> pointVector = plane.xPointVector;
 
-		Vector<Double> pointVector = new Vector<Double>(); //plane.xPointVector
-		pointVector.add(PI*0/4);
-		pointVector.add(PI*1/4);
-		pointVector.add(PI*2/4);
-		pointVector.add(PI*3/4);
-		pointVector.add(PI*4/4);
+		System.out.println(pointVector);
 
-		int x1Last = 0, y1Last = 0;
+		x1Last = 0;
+		y1Last = 0;
+		firstPoint = true;
 
 		for (int x1 = (int)(-length/2); x1 <= length/2; x1++)
 		{
@@ -115,16 +122,33 @@ public class GrahpicsPanel extends JPanel {
 					}
 				}
 
-				y += p*(sin(pointVector.get(k)) + pointVector.get(k)); //f(x_k)
+				y += p*(Functions.func(pointVector.get(k), plane.num)); //f(x_k)
 			}
 
 			int y1 = (int) (y * unit);
-			g2.draw(new Line((int)center.getX() + x1Last, (int)center.getY() - y1Last, (int)center.getX() + x1, (int)center.getY() - y1));
+
+			if(!firstPoint)
+				g2.draw(new Line((int)center.getX() + x1Last, (int)center.getY() - y1Last, (int)center.getX() + x1, (int)center.getY() - y1));
+			else
+				firstPoint = false;
 
 			x1Last = x1;
 			y1Last = y1;
 		}
 
+		//Points:
+		//pointVector
+		for (int k = 0; k < pointVector.size(); k++)
+		{
+			double x = pointVector.get(k);
+			int x1 = (int) (x*unit);
+			double y = Functions.func(x, plane.num); //!
+			int y1 = (int) (y*unit);
+
+			Circle circle = new Circle((int) (center.getX()) + x1, (int) (center.getY() - y1), 3);
+			g2.setColor(Color.RED);
+			g2.fill(circle);
+		}
 
 		//Circles:
 		for (Iterator circleIterator = circleVector.iterator(); circleIterator.hasNext(); )

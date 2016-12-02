@@ -19,7 +19,7 @@ public class MainFrame extends JFrame
 	public void initFrame()
 	{
 		this.setSize(600, 530);
-		this.setTitle("My first frame");
+		this.setTitle("Interpolation");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null); //Open window in center of screen
 		this.setVisible(true);
@@ -31,10 +31,12 @@ public class MainFrame extends JFrame
 		lst = new JList(new String[]{"y = sin(x)", "y = x + sin(x)", "y = (1/4)^x"});
 
 		JPanel pnlRight = new JPanel();
+		//Button btn = new Button("Select Point");
 
 		this.add(pnlRight, BorderLayout.EAST);
 		this.add(gp, BorderLayout.CENTER);
 		pnlRight.add(lst);
+		//pnlRight.add(btn);
 
 		gp.addMouseListener(new MouseAdapter()
 		{
@@ -54,12 +56,22 @@ public class MainFrame extends JFrame
 				ThreadCircle threadCircle = new ThreadCircle(gp, goodCircle); //!
 				threadCircle.start(); //?!
 
+				double x = selectedPoint.getX()/gp.getUnit();
+
+				boolean isInCollection = false;
+				for (int i = 0; i < plane.xPointVector.size(); i++)
+				{
+					if(plane.xPointVector.get(i) == x)
+						isInCollection = true;
+				}
+
 				gp.addNewCircle(goodCircle);
 
 				//Добавляю точку x
+				if(!isInCollection)
+					plane.xPointVector.add(x);
 
-
-				System.out.println("Component coords: x = " + selectedPoint.getX() + ", y = " + selectedPoint.getY());
+				System.out.println("Component coords: x = " + selectedPoint.getX()/gp.getUnit() + ", y = " + selectedPoint.getY()/gp.getUnit());
 			}
 		});
 
