@@ -12,7 +12,6 @@ public class GrahpicsPanel extends JPanel {
 	private Vector<Circle> circleVector;
 
 	private Plane plane;
-	//public int num; //!
 
 	public GrahpicsPanel(Plane plane)
 	{

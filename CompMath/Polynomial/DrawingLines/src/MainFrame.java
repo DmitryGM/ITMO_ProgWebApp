@@ -2,8 +2,11 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Vector;
 
 public class MainFrame extends JFrame
 {
@@ -18,7 +21,7 @@ public class MainFrame extends JFrame
 
 	public void initFrame()
 	{
-		this.setSize(600, 530);
+
 		this.setTitle("Interpolation");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null); //Open window in center of screen
@@ -31,12 +34,20 @@ public class MainFrame extends JFrame
 		lst = new JList(new String[]{"y = sin(x)", "y = x + sin(x)", "y = (1/4)^x"});
 
 		JPanel pnlRight = new JPanel();
-		//Button btn = new Button("Select Point");
+		Button btn = new Button("Get answer");
+		Button btnClear = new Button("Clear");
+		JSpinner jsp = new JSpinner();
+		Label lbl = new Label();
+		lbl.setText("Res: ");
 
 		this.add(pnlRight, BorderLayout.EAST);
 		this.add(gp, BorderLayout.CENTER);
+		pnlRight.setLayout(new BoxLayout(pnlRight, BoxLayout.PAGE_AXIS));
 		pnlRight.add(lst);
-		//pnlRight.add(btn);
+		pnlRight.add(jsp);
+		pnlRight.add(lbl);
+		pnlRight.add(btn);
+		pnlRight.add(btnClear);
 
 		gp.addMouseListener(new MouseAdapter()
 		{
@@ -84,5 +95,47 @@ public class MainFrame extends JFrame
 				gp.repaint();
 			}
 		});
+
+		btn.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				int x = (int) jsp.getValue();
+				double y = 0;
+
+				Vector<Double> pointVector = plane.xPointVector;
+
+				for (int k = 0; k < pointVector.size(); k++)
+				{
+					double p = 1.0;
+
+					for (int j = 0; j < pointVector.size(); j++)
+					{
+						if (j != k)
+						{
+							p *= x - pointVector.get(j);
+							p /= pointVector.get(k) - pointVector.get(j);
+						}
+					}
+
+					y += p*(Functions.func(pointVector.get(k), plane.num)); //f(x_k)
+				}
+
+				lbl.setText("y = " + y);
+			}
+		});
+
+		btnClear.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				plane.xPointVector.clear();
+				gp.repaint();
+			}
+		});
+
+		this.setSize(600, 530);
 	}
 }
