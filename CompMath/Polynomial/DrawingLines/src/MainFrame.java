@@ -34,7 +34,8 @@ public class MainFrame extends JFrame
 		lst = new JList(new String[]{"y = sin(x)", "y = x + sin(x)", "y = (1/4)^x"});
 
 		JPanel pnlRight = new JPanel();
-		Button btn = new Button("Get answer");
+		Button btnAnswer = new Button("Get answer");
+		Button btnChebyshev = new Button("Chebyshev");
 		Button btnClear = new Button("Clear");
 		JSpinner jsp = new JSpinner();
 		Label lbl = new Label();
@@ -45,8 +46,11 @@ public class MainFrame extends JFrame
 		pnlRight.setLayout(new BoxLayout(pnlRight, BoxLayout.PAGE_AXIS));
 		pnlRight.add(lst);
 		pnlRight.add(jsp);
+
+		pnlRight.add(btnChebyshev);
+
 		pnlRight.add(lbl);
-		pnlRight.add(btn);
+		pnlRight.add(btnAnswer);
 		pnlRight.add(btnClear);
 
 		gp.addMouseListener(new MouseAdapter()
@@ -64,23 +68,15 @@ public class MainFrame extends JFrame
 				Circle goodCircle = new Circle(coursor, 20);
 
 				//Создаем новый поток
-				ThreadCircle threadCircle = new ThreadCircle(gp, goodCircle); //!
-				threadCircle.start(); //?!
+				ThreadCircle threadCircle = new ThreadCircle(gp, goodCircle);
+				threadCircle.start();
 
 				double x = selectedPoint.getX()/gp.getUnit();
-
-				boolean isInCollection = false;
-				for (int i = 0; i < plane.xPointVector.size(); i++)
-				{
-					if(plane.xPointVector.get(i) == x)
-						isInCollection = true;
-				}
 
 				gp.addNewCircle(goodCircle);
 
 				//Добавляю точку x
-				if(!isInCollection)
-					plane.xPointVector.add(x);
+				plane.addPointX(x);
 
 				System.out.println("Component coords: x = " + selectedPoint.getX()/gp.getUnit() + ", y = " + selectedPoint.getY()/gp.getUnit());
 			}
@@ -96,7 +92,7 @@ public class MainFrame extends JFrame
 			}
 		});
 
-		btn.addActionListener(new ActionListener()
+		btnAnswer.addActionListener(new ActionListener()
 		{
 			@Override
 			public void actionPerformed(ActionEvent e)
@@ -123,6 +119,26 @@ public class MainFrame extends JFrame
 				}
 
 				lbl.setText("y = " + y);
+			}
+		});
+
+		btnChebyshev.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				double a, b;
+				a = -1;
+				b = 1;
+
+				int k = 10; //Count of points
+
+				for (int m = 0; m < k; m++)
+				{
+					double xm = ( (b-a)*Math.cos((double)(2*m+1)/(double)(2*k)*Math.PI) + a + b )/2;
+					plane.addPointX(xm);
+				}
+
 			}
 		});
 

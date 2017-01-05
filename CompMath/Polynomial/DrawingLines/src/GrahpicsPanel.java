@@ -3,9 +3,6 @@ import java.awt.*;
 import java.util.Iterator;
 import java.util.Vector;
 
-import static java.lang.Math.PI;
-import static java.lang.Math.*;
-
 public class GrahpicsPanel extends JPanel {
 
 	private int unit;

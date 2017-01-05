@@ -1,7 +1,4 @@
 import java.lang.*;
-import java.util.Vector;
-
-import static java.lang.Math.*;
 
 public class Main
 {

@@ -12,6 +12,19 @@ public class Plane
 		xPointVector = new Vector<Double>();
 	}
 
+	public boolean addPointX(double x)
+	{
+		if (xPointVector.contains(x))
+		{
+			return false;
+		}
+		else
+		{
+			xPointVector.add(x);
+			return true;
+		}
+	}
+
 	//Сюда бы было не плохо добавить функцию
 
     public double interpolation()
