@@ -16,7 +16,7 @@ public class DiffEquation
 
 	double f(double x, double y)
 	{
-		return Math.cos(x);
+		return 3*x*x;
 	}
 
 	public void setStart(double x0, double y0)
@@ -81,8 +81,5 @@ public class DiffEquation
 				y.set(i + 1, B);
 			}
 		}
-
-
 	}
-
 }
