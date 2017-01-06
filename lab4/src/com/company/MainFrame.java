@@ -10,7 +10,22 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class MainFrame extends JFrame {
-
+	
+	private GrahpicsPanel gp;
+	private JTextField txt;
+	private JSpinner spinner;
+	private Button btn;
+	private JList lst;
+	private JPanel panelRight;
+	
+	private JCheckBox checkBoxM;
+	private JCheckBox checkBox0;
+	private JCheckBox checkBox1;
+	private JCheckBox checkBox2;
+	
+	private Point selectedTextPoint;
+	
+	
 	public MainFrame()
 	{
 		initFrame();
@@ -26,15 +41,15 @@ public class MainFrame extends JFrame {
 
 		this.setLayout(new BorderLayout());
 
-		GrahpicsPanel gp = new GrahpicsPanel();
-		JTextField txt = new JTextField();
-		JSpinner spinner = new JSpinner();
+		gp = new GrahpicsPanel();
+		txt = new JTextField();
+		spinner = new JSpinner();
 		spinner.setValue(100);
 
-		Button btn = new Button("Select Point");
-		JList lst = new JList(new String[]{"x = 1 R", "x = 2 R", "x = -1 R", "x = -2 R"});
+		btn = new Button("Select Point");
+		lst = new JList(new String[]{"x = 1 R", "x = 2 R", "x = -1 R", "x = -2 R"});
 
-		JPanel panelRight = new JPanel();
+		panelRight = new JPanel();
 		panelRight.setLayout(new BoxLayout(panelRight, BoxLayout.PAGE_AXIS));
 
 		this.add(panelRight, BorderLayout.EAST);
@@ -43,10 +58,10 @@ public class MainFrame extends JFrame {
 
 		panelRight.add(lst);
 
-		JCheckBox checkBoxM = new JCheckBox();
-		JCheckBox checkBox0 = new JCheckBox();
-		JCheckBox checkBox1 = new JCheckBox();
-		JCheckBox checkBox2 = new JCheckBox();
+		checkBoxM = new JCheckBox();
+		checkBox0 = new JCheckBox();
+		checkBox1 = new JCheckBox();
+		checkBox2 = new JCheckBox();
 
 		panelRight.add(checkBoxM);
 		panelRight.add(checkBox0);
@@ -62,11 +77,10 @@ public class MainFrame extends JFrame {
 		checkBox2.setText("y += 4R");
 
 		//Кнопка, которую выбрали через интерфейс
-		Point selectedTextPoint = new Point();
+		selectedTextPoint = new Point();
 
 		//Events:
-		btn.addActionListener(new ActionListener()
-		{
+		btn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//x:
@@ -123,8 +137,7 @@ public class MainFrame extends JFrame {
 			}
 		});
 
-		spinner.addChangeListener(new ChangeListener()
-		{
+		spinner.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent e)
 			{
@@ -136,8 +149,7 @@ public class MainFrame extends JFrame {
 			}
 		});
 
-		gp.addMouseListener(new MouseAdapter()
-		{
+		gp.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e)
 			{
