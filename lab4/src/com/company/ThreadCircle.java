@@ -8,16 +8,16 @@ public class ThreadCircle extends Thread
 	private GrahpicsPanel gp;
 	private int radiusOld;
 
-	public ThreadCircle(GrahpicsPanel gp, Circle circle)
-	{
-		this.gp = gp;
-		this.circle = circle;
-		this.radiusOld = gp.getRadius();
-	}
+	public ThreadCircle(GrahpicsPanel gp, Circle circle) {
+	
+	this.gp = gp;
+	this.circle = circle;
+	this.radiusOld = gp.getRadius();
+}
 
 	@Override
-	public void run()
-	{
+	public void run() {
+		
 		gp.repaint();
 		Point cursor = circle.getCenterPoint();
 
@@ -71,6 +71,5 @@ public class ThreadCircle extends Thread
 		circle.setRadius(0);
 
 		gp.repaint();
-
 	}
 }

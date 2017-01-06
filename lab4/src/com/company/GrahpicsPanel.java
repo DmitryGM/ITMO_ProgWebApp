@@ -16,29 +16,29 @@ public class GrahpicsPanel extends JPanel {
 	}
 	public GrahpicsPanel() {}
 
-	public GrahpicsPanel(int radius)
-	{
+	public GrahpicsPanel(int radius) {
+		
 		this.radius = radius;
 	}
 
-	public void addNewCircle(Circle newCircle)
-	{
+	public void addNewCircle(Circle newCircle) {
+		
 		circleVector.add(newCircle);
 	}
 
-	public void setRadius(int radius)
-	{
+	public void setRadius(int radius) {
+		
 		this.radius = radius;
 	}
 
-	public int getRadius()
-	{
+	public int getRadius() {
+		
 		return this.radius;
 	}
 
 	@Override
-	public void paint(Graphics g)
-	{
+	public void paint(Graphics g) {
+		
 		super.paint(g);
 		this.setBackground(new Color(255, 255, 153));
 
@@ -47,7 +47,7 @@ public class GrahpicsPanel extends JPanel {
 		double length = 0.7 * getHeight();
 		Point center = new Point(getWidth() / 2, getHeight() / 2);
 
-		//BlueArea:
+		// BlueArea:
 		g2.setColor(new Color(32, 132, 67));
 
 		for (int x = (int)(-length/2); x <= length/2; x++)
@@ -61,7 +61,7 @@ public class GrahpicsPanel extends JPanel {
 			}
 		}
 
-		//Circles:
+		// Circles:
 
 		for (Iterator circleIterator = circleVector.iterator(); circleIterator.hasNext() ; )
 		{
@@ -79,7 +79,7 @@ public class GrahpicsPanel extends JPanel {
 			g2.fill(circle);
 		}
 
-		//Lines:
+		// Lines:
 		Line lineOY = new Line(center.getX(), center.getY() - length/2, center.getX(), center.getY() + length/2);
 		Line lineOX = new Line(center.getX() - length/2, center.getY(), center.getX() + length/2, center.getY());
 
@@ -101,7 +101,6 @@ public class GrahpicsPanel extends JPanel {
 			g2.draw(new Line(center.getX() - 3, center.getY() - radius*k/2, center.getX() + 3, center.getY() - radius*k/2));
 		}
 
-		System.out.println("!"); //debug
+		System.out.println("!"); // Debug
 	}
-
 }

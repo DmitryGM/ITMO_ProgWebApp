@@ -26,13 +26,13 @@ public class MainFrame extends JFrame {
 	private Point selectedTextPoint;
 	
 	
-	public MainFrame()
-	{
+	public MainFrame() {
+		
 		initFrame();
 	}
 
-	public void initFrame()
-	{
+	public void initFrame()	{
+		
 		this.setSize(600, 400);
 		this.setTitle("lab4; var-20108");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
