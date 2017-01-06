@@ -4,10 +4,9 @@ import java.awt.*;
 
 public class ThreadCircle extends Thread
 {
-	Circle circle;
-	GrahpicsPanel gp;
-	//!!!
-	int radiusOld;
+	private Circle circle;
+	private GrahpicsPanel gp;
+	private int radiusOld;
 
 	public ThreadCircle(GrahpicsPanel gp, Circle circle)
 	{
@@ -20,23 +19,11 @@ public class ThreadCircle extends Thread
 	public void run()
 	{
 		gp.repaint();
-		try
-		{
-			Thread.sleep(9);
-		}
-		catch (InterruptedException e)
-		{
-			e.printStackTrace();
-		}
-
-		//111
 		Point cursor = circle.getCenterPoint();
 
-		//Преобразование координат
+		// Transformation coordinates
 		Point center = new Point(gp.getWidth() / 2, gp.getHeight() / 2);
 		Point selectedPoint = new Point((int) cursor.getX() - (int) center.getX(), -((int) cursor.getY() - (int) center.getY()));
-
-		//222
 
 		while (gp.getRadius() == radiusOld)
 		{
@@ -66,8 +53,8 @@ public class ThreadCircle extends Thread
 
 		while(circle.getRadius() >= 0)
 		{
-			//Рисуем тут Круги)
-			circle.setRadius(circle.getRadius() - 1); //Уменьшаем
+			// Draw circle
+			circle.setRadius(circle.getRadius() - 1);
 
 			gp.repaint();
 
