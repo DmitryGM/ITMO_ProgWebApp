@@ -13,16 +13,18 @@ public class Client {
     private Thread listenThread;
     private DatagramSocket socket;
     
+    private InetAddress address;
     private int portFrom;
-    //private int portTo;
+    private int portTo;
     
     {
         running = false;
     }
     
-    public Client(int portTo, int portFrom)
+    public Client(int portTo, int portFrom, InetAddress address)
     {
-        //this.portTo = portTo;
+        this.address = address;
+        this.portTo = portTo;
         this.portFrom = portFrom;
         
         try {
@@ -72,16 +74,14 @@ public class Client {
             {
                 System.out.println("false");
             }
-            
-            
         }
     }
     
-    public void send(byte[] data, InetAddress address, int portTo)
+    public void send(byte[] data)
     {
         //assert (socket.isClosed()); // ?
         
-        DatagramPacket packet = new DatagramPacket(data, data.length, address, portTo);
+        DatagramPacket packet = new DatagramPacket(data, data.length, this.address, this.portTo);
         try
         {
             socket.send(packet);

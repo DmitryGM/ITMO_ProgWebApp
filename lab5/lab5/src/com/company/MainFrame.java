@@ -11,6 +11,8 @@ import java.awt.event.MouseEvent;
 
 public class MainFrame extends JFrame {
 	
+	private Client client;
+	
 	private GrahpicsPanel gp;
 	private JTextField txt;
 	private JSpinner spinner;
@@ -28,7 +30,7 @@ public class MainFrame extends JFrame {
 	
 	public MainFrame(Client client) {
 		
-		
+		this.client = client;
 		initFrame();
 	}
 
@@ -42,7 +44,7 @@ public class MainFrame extends JFrame {
 
 		this.setLayout(new BorderLayout());
 
-		gp = new GrahpicsPanel();
+		gp = new GrahpicsPanel(this.client);
 		txt = new JTextField();
 		spinner = new JSpinner();
 		spinner.setValue(100);

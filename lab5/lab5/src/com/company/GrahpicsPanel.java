@@ -7,6 +7,8 @@ import java.util.Vector;
 
 public class GrahpicsPanel extends JPanel {
 
+	private Client client;
+	
 	private int radius;
 	private Vector<Circle> circleVector;
 
@@ -14,7 +16,10 @@ public class GrahpicsPanel extends JPanel {
 		circleVector = new Vector<Circle>();
 		radius = 100;
 	}
-	public GrahpicsPanel() {}
+	public GrahpicsPanel(Client client) {
+		
+		this.client = client;
+	}
 
 	public GrahpicsPanel(int radius) {
 		
