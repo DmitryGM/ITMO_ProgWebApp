@@ -67,7 +67,8 @@ public class GrahpicsPanel extends JPanel {
 		{
 			Circle circle = (Circle) circleIterator.next();
 
-			if(BlueArea.isInArea(BlueArea.pointToBlueArea(circle.getCenterPoint(), this), this))
+			//if (BlueArea.isInArea(BlueArea.pointToBlueArea(circle.getCenterPoint(), this), this))
+			if (true) //send request to server
 			{
 				g2.setColor(Color.CYAN);
 			}

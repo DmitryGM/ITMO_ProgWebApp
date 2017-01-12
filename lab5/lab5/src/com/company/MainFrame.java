@@ -26,7 +26,8 @@ public class MainFrame extends JFrame {
 	private Point selectedTextPoint;
 	
 	
-	public MainFrame() {
+	public MainFrame(Client client) {
+		
 		
 		initFrame();
 	}
@@ -165,10 +166,10 @@ public class MainFrame extends JFrame {
 				Circle newCircle = new Circle(cursor, 5);
 
 				//Create new Thread:
-				ThreadCircle threadCircle = new ThreadCircle(gp,  newCircle);
+				ThreadCircle threadCircle = new ThreadCircle(gp, newCircle);
 				threadCircle.start();
 
-				gp.addNewCircle( newCircle);
+				gp.addNewCircle(newCircle);
 
 				System.out.println("Component coords: x = " + bluePoint.getX() + ", y = " + bluePoint.getY()); //debug
 			}
