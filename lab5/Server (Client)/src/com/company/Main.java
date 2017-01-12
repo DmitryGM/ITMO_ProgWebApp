@@ -22,7 +22,7 @@ public class Main {
         //server.send(bytesDouble, address, portServer);
     
         //# Send 2
-        byte[] bytesDouble2 = Convert.toByteArray(0.5, 1.0);
+        byte[] bytesDouble2 = Convert.toByteArray(0.5, 0);
         server.send(bytesDouble2, address, portServer);
     }
 }
