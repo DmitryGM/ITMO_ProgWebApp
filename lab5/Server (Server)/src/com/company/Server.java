@@ -5,6 +5,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
+import java.util.DoubleSummaryStatistics;
 
 public class Server {
     
@@ -47,7 +48,7 @@ public class Server {
             }
         });
         
-        listenThread.start();
+        listenThread.start(); //new Thread !
         running = true;
     }
     
@@ -61,12 +62,21 @@ public class Server {
         while (running)
         {
             socket.receive(packet);
+    
+            Double[] doubles = new Double[2];
+            Convert.toDouble(data, doubles);
             
-            double getDouble = Convert.toDouble1(data); //#2
+            double d1 = doubles[0];
+            double d2 = doubles[1];
             
-            send(new byte[]{1,2,3,4,5,6,7,8}, InetAddress.getByName("localhost"), clientPort); //Answer
-            
-            System.out.println("Data: " + getDouble);
+            if (d1*d1 + d2*d2 < 1)
+            {
+                send(new byte[]{1}, InetAddress.getByName("localhost"), clientPort); //Answer
+            }
+            else
+            {
+                send(new byte[]{0}, InetAddress.getByName("localhost"), clientPort); //Answer
+            }
         }
     }
     

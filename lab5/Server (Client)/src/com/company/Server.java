@@ -53,7 +53,7 @@ public class Server {
     
     private void listen() throws IOException
     {
-        int pacSize = 8;
+        int pacSize = 1;
         byte data[] = new byte[pacSize];
         
         DatagramPacket packet = new DatagramPacket(data, data.length);
@@ -62,9 +62,18 @@ public class Server {
         {
             socket.receive(packet);
             
-            double getDouble = Convert.toDouble(data);
+            Boolean bool = Convert.toBoolean(data);
             
-            System.out.println("Data: " + getDouble);
+            if (bool == true)
+            {
+                System.out.println("true");
+            }
+            else
+            {
+                System.out.println("false");
+            }
+            
+            
         }
     }
     
