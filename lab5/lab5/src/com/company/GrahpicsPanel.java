@@ -12,21 +12,21 @@ public class GrahpicsPanel extends JPanel {
 
 	private Client client;
 	
-	private int radius;
+	private int unit;
 	private Vector<Circle> circleVector;
 
 	{
 		circleVector = new Vector<Circle>();
-		radius = 100;
+		unit = 100;
 	}
 	public GrahpicsPanel(Client client) {
 		
 		this.client = client;
 	}
 
-	public GrahpicsPanel(int radius) {
+	public GrahpicsPanel(int unit) {
 		
-		this.radius = radius;
+		this.unit = unit;
 	}
 
 	public void addNewCircle(Circle newCircle) {
@@ -34,14 +34,14 @@ public class GrahpicsPanel extends JPanel {
 		circleVector.add(newCircle);
 	}
 
-	public void setRadius(int radius) {
+	public void setRadius(int unit) {
 		
-		this.radius = radius;
+		this.unit = unit;
 	}
 
 	public int getRadius() {
 		
-		return this.radius;
+		return this.unit;
 	}
 
 	@Override
@@ -62,9 +62,11 @@ public class GrahpicsPanel extends JPanel {
 		{
 			for (int y = (int) (-length / 2); y <= length / 2; y++)
 			{
-				if (BlueArea.isInArea(new Point(x, y), this))
+				Point point = new Point(x, y);
+				
+				if (BlueArea.isInArea(point, this))
 				{
-					g2.fill(new Circle((int) center.getX() + x, (int) center.getY() - y, 1));
+					g2.fill(new Circle(pointToGP(point), 1));
 				}
 			}
 		}
@@ -101,20 +103,31 @@ public class GrahpicsPanel extends JPanel {
 		g2.draw(lineOY);
 		g2.draw(lineOX);
 
-		int N = (int)length / 2 / (radius / 2);
+		int N = (int)length / 2 / (unit / 2);
 
 		for (int k = 1; k <= N; k++)
 		{
-			if ( radius/2 * k > length/2 - 10 ) break;
+			if ( unit/2 * k > length/2 - 10 ) break;
 
 			g2.setColor(Color.BLACK);
-			g2.draw(new Line(center.getX() + radius*k/2, center.getY() - 3, center.getX() + radius*k/2, center.getY() + 3));
-			g2.draw(new Line(center.getX() - radius*k/2, center.getY() - 3, center.getX() - radius*k/2, center.getY() + 3));
+			g2.draw(new Line(center.getX() + unit*k/2, center.getY() - 3, center.getX() + unit*k/2, center.getY() + 3));
+			g2.draw(new Line(center.getX() - unit*k/2, center.getY() - 3, center.getX() - unit*k/2, center.getY() + 3));
 
-			g2.draw(new Line(center.getX() - 3, center.getY() + radius*k/2, center.getX() + 3, center.getY() + radius*k/2));
-			g2.draw(new Line(center.getX() - 3, center.getY() - radius*k/2, center.getX() + 3, center.getY() - radius*k/2));
+			g2.draw(new Line(center.getX() - 3, center.getY() + unit*k/2, center.getX() + 3, center.getY() + unit*k/2));
+			g2.draw(new Line(center.getX() - 3, center.getY() - unit*k/2, center.getX() + 3, center.getY() - unit*k/2));
 		}
 
 		System.out.println("!"); // Debug
+	}
+	
+	public Point pointToGP(Point point)
+	{
+		int x = point.x;
+		int y = point.y;
+		
+		Point center = new Point(getWidth() / 2, getHeight() / 2);
+		Point pointGP =  new Point((int) center.getX() + x, (int) center.getY() - y);
+		
+		return pointGP;
 	}
 }
