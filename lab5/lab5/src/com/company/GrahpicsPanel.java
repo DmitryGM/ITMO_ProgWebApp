@@ -1,7 +1,6 @@
 package com.company;
 
 import com.company.circle.Circle;
-import com.company.client.Client;
 
 import javax.swing.JPanel;
 import java.awt.*;
@@ -10,8 +9,6 @@ import java.util.Vector;
 
 public class GrahpicsPanel extends JPanel {
 
-	private Client client;
-	
 	private int unit;
 	private Vector<Circle> circleVector;
 
@@ -19,10 +16,7 @@ public class GrahpicsPanel extends JPanel {
 		circleVector = new Vector<Circle>();
 		unit = 100;
 	}
-	public GrahpicsPanel(Client client) {
-		
-		this.client = client;
-	}
+	public GrahpicsPanel() {}
 
 	public GrahpicsPanel(int unit) {
 		
@@ -76,24 +70,8 @@ public class GrahpicsPanel extends JPanel {
 		{
 			Circle circle = (Circle) circleIterator.next();
 			
-			Point point = BlueArea.pointToBlueArea(circle.getCenterPoint(), this);
-			//boolean answer = client.send(Convert.toByteArray(point.getX(), point.getY())); // Wait...
-			
-			//if (BlueArea.isInArea(BlueArea.pointToBlueArea(circle.getCenterPoint(), this), this))
-			/*
-			if (answer == true) //send request to server
-			{
-				g2.setColor(Color.CYAN);
-			}
-			else
-			{
-				g2.setColor(Color.PINK);
-			}
-			*/
-			//!----!//!----!//!----!//
-			
 			if (circle.getState() == Circle.State.Unknown)
-				g2.setColor(Color.ORANGE);
+				g2.setColor(Color.GRAY);
 			
 			if (circle.getState() == Circle.State.InArea)
 				g2.setColor(Color.CYAN);

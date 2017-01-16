@@ -46,7 +46,7 @@ public class MainFrame extends JFrame {
 
 		this.setLayout(new BorderLayout());
 
-		gp = new GrahpicsPanel(this.client);
+		gp = new GrahpicsPanel();
 		txt = new JTextField();
 		spinner = new JSpinner();
 		spinner.setValue(100);
@@ -144,7 +144,6 @@ public class MainFrame extends JFrame {
 			@Override
 			public void mousePressed(MouseEvent e)
 			{
-				
 				Point cursor = e.getPoint();
 				
 				// Transformation coordinates:

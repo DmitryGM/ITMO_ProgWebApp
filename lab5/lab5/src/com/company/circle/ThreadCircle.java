@@ -33,13 +33,19 @@ public class ThreadCircle extends Thread
 		Point selectedPoint = BlueArea.pointToBlueArea(cursor, gp);
 		
 		// Define state
-		circle.setState(defineState(selectedPoint)); //waiting...
+		Circle.State state = defineState(selectedPoint); // Waiting...
+		circle.setState(state);
+		
+		if (state == Circle.State.Unknown)
+		{
+			
+		}
 		
 		gp.repaint();
 		System.out.println("hello from run( out )"); // Debug
 	}
 	
-	private Circle.State defineState(Point point)
+	private synchronized Circle.State defineState(Point point)
 	{
 		return client.send(Convert.toByteArray(point.getX(), point.getY()));
 	}

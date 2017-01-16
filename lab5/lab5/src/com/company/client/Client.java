@@ -78,24 +78,24 @@ public class Client {
             if (bool == true)
             {
                 answer = true;
-                System.out.println("Answer: true");
+                System.out.println("Answer: true"); // Debug
                 
                 this.stop();
             }
             else
             {
                 answer = false;
-                System.out.println("Answer: false");
+                System.out.println("Answer: false"); // Debug
     
                 this.stop();
             }
         }
         
         this.stop();
-        System.out.println("this.stop() from listen()");
+        System.out.println("this.stop() from listen()"); // Debug
     }
     
-    public Circle.State send(byte[] data)
+    public synchronized Circle.State send(byte[] data)
     {
         DatagramPacket packet = new DatagramPacket(data, data.length, this.address, this.portTo);
         
@@ -105,7 +105,7 @@ public class Client {
             
             socket.send(packet);
             this.start(); //wait answer
-            System.out.println("Wait answer..."); //Debug
+            System.out.println("Wait answer..."); // Debug
     
             long difference = 0;
             
@@ -130,9 +130,9 @@ public class Client {
                 return Circle.State.OutArea;
         }
         
-        this.stop();
-        System.out.println("this.stop() from send()");
+        System.out.println("this.stop() from send()"); // Debug
         
+        this.stop();
         return Circle.State.Unknown;
     }
 }
