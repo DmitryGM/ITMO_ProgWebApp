@@ -2,6 +2,7 @@ package com.company;
 
 import com.company.client.Client;
 
+import javax.swing.*;
 import java.lang.*;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -23,7 +24,6 @@ public class Main {
         //byte[] bytesDouble = Convert.toByteArray(13.0, 11.0);
         //client.send(bytesDouble);
         
-        
-        new MainFrame(client);
+        SwingUtilities.invokeLater(() -> new MainFrame(client));
     }
 }

@@ -1,5 +1,7 @@
 package com.company.client;
 
+import com.company.circle.Circle;
+
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -90,11 +92,11 @@ public class Client {
         }
         
         this.stop();
-        System.out.println("this.stop();");
+        System.out.println("this.stop() from listen()");
     }
     
-    public boolean send(byte[] data) {
-        
+    public Circle.State send(byte[] data)
+    {
         DatagramPacket packet = new DatagramPacket(data, data.length, this.address, this.portTo);
         
         try
@@ -110,16 +112,27 @@ public class Client {
             while (running && difference < 1000)
             {
                 // Wait 1000 ms = 1 s
-                difference = time_up - System.currentTimeMillis();
+                difference = System.currentTimeMillis() - time_up;
+                
+                System.out.print(running); //the quantum physics
             }
-            System.out.println("and???"); // ---
         }
         catch (IOException e)
         {
             e.printStackTrace();
         }
         
+        if (running == false)
+        {
+            if(answer)
+                return Circle.State.InArea;
+            else
+                return Circle.State.OutArea;
+        }
+        
         this.stop();
-        return answer;
+        System.out.println("this.stop() from send()");
+        
+        return Circle.State.Unknown;
     }
 }

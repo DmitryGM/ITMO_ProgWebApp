@@ -118,10 +118,7 @@ public class MainFrame extends JFrame {
 				Point cursor = gp.pointToGP(selectedPoint);
 				
 				// Draw point:
-				Circle circle = drawPoint(cursor);
-				
-				// Define state:
-				circle.setState(defineState(selectedPoint));
+				drawPoint(cursor);
 				
 				// Output:
 				writeText(selectedPoint);
@@ -154,10 +151,7 @@ public class MainFrame extends JFrame {
 				Point selectedPoint = BlueArea.pointToBlueArea(cursor, gp);
 				
 				// Draw point:
-				Circle circle = drawPoint(cursor);
-				
-				// Define state:
-				circle.setState(defineState(selectedPoint));
+				drawPoint(cursor);
 				
 				// Output:
 				writeText(selectedPoint);
@@ -175,32 +169,15 @@ public class MainFrame extends JFrame {
 		txt.setText("Your point: (" + point.getX() + ", " + point.getY() + ")");
 	}
 	
-	private Circle drawPoint(Point cursor)
+	private void drawPoint(Point cursor)
 	{
 		// Create new Circle:
 		Circle newCircle = new Circle(cursor, 5);
 		
 		// Create new Thread:
-		ThreadCircle threadCircle = new ThreadCircle(gp, newCircle);
+		ThreadCircle threadCircle = new ThreadCircle(gp, newCircle, client);
 		threadCircle.start();
 		
 		gp.addNewCircle(newCircle);
-		
-		return newCircle;
-	}
-	
-	private Circle.State defineState(Point point)
-	{
-		
-		boolean answer = client.send(Convert.toByteArray(point.getX(), point.getY()));
-		
-		if (answer)
-		{
-			return Circle.State.InArea;
-		}
-		else
-		{
-			return Circle.State.OutArea;
-		}
 	}
 }
