@@ -1,5 +1,7 @@
 package com.company;
 
+import com.company.client.Client;
+
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -24,9 +26,6 @@ public class MainFrame extends JFrame {
 	private JCheckBox checkBox0;
 	private JCheckBox checkBox1;
 	private JCheckBox checkBox2;
-	
-	private Point selectedTextPoint;
-	
 	
 	public MainFrame(Client client) {
 		
@@ -79,63 +78,51 @@ public class MainFrame extends JFrame {
 		checkBox1.setText("y += 2R");
 		checkBox2.setText("y += 4R");
 
-		//Кнопка, которую выбрали через интерфейс
-		selectedTextPoint = new Point();
-
-		//Events:
+		// Events:
+		
 		btn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//x:
-				lst.getSelectedIndex();
-				System.out.println(lst.getSelectedIndex());
-
+				
+				Point selectedPoint = new Point();
+				
+				// get x:
 				switch (lst.getSelectedIndex()) {
 					case 0:
-						selectedTextPoint.x = gp.getRadius();
+						selectedPoint.x = gp.getRadius();
 						break;
 					case 1:
-						selectedTextPoint.x = 2 * gp.getRadius();
+						selectedPoint.x = 2 * gp.getRadius();
 						break;
 					case 2:
-						selectedTextPoint.x = -gp.getRadius();
+						selectedPoint.x = -gp.getRadius();
 						break;
 					case 3:
-						selectedTextPoint.x = -2 * gp.getRadius();
+						selectedPoint.x = -2 * gp.getRadius();
 						break;
 				}
 
-				//y:
+				// get y:
 				int k = 0;
-				if (checkBox0.isSelected()) k++;
+				if (checkBox0.isSelected()) k += 1;
 				if (checkBox1.isSelected()) k += 2;
 				if (checkBox2.isSelected()) k += 4;
 				if (checkBoxM.isSelected()) k *= -1;
+				
+				selectedPoint.y = k * gp.getRadius();
+				
+				// Output:
+				txt.setText("Your point: (" + selectedPoint.getX() + ", " + selectedPoint.getY() + ")");
 
-				selectedTextPoint.y = k * gp.getRadius();
-
-				System.out.println("hello world!");
-				txt.setText("Your point: (" + selectedTextPoint.getX() + ", " + selectedTextPoint.getY() + ")");
-				repaint();
-
-
-				// :
-				// selectedTextPoint
-
-				//Преобразование координат
+				// Transformation coordinates:
 				Point center = new Point(gp.getWidth() / 2, gp.getHeight() / 2);
-				Point selectedPoint = selectedTextPoint; // Она и есть
-				Point pointOnR2 = new Point((int) selectedTextPoint.getX() + (int) center.getX(), ((int) -selectedTextPoint.getY() + (int) center.getY()));
-
-				//Создаем новый круг
-				Circle goodCircle = new Circle(pointOnR2, 5);
-
-				//Новый поток
-				ThreadCircle threadCircle = new ThreadCircle(gp, goodCircle); //!
-				threadCircle.start();
-
-				gp.addNewCircle(goodCircle); //?
-
+				
+				Point cursor = new Point((int) selectedPoint.getX() + (int) center.getX(), ((int) - selectedPoint.getY() + (int) center.getY()));
+				
+				// Draw point:
+				drawPoint(cursor);
+				
+				// Debug:
 				System.out.println("Component coords: x = " + selectedPoint.getX() + ", y = " + selectedPoint.getY());
 			}
 		});
@@ -157,24 +144,32 @@ public class MainFrame extends JFrame {
 			public void mousePressed(MouseEvent e)
 			{
 				Point cursor = e.getPoint();
-				System.out.println("Component coords: x = " + cursor.getX() + ", y = " + cursor.getY());
-
-				//Transformation coordinates
+				
+				// Transformation coordinates:
 				Point bluePoint = BlueArea.pointToBlueArea(cursor, gp);
-
+				
 				txt.setText("Your point: (" + bluePoint.getX() + ", " + bluePoint.getY() + ")");
-
-				//Create new Circle:
-				Circle newCircle = new Circle(cursor, 5);
-
-				//Create new Thread:
-				ThreadCircle threadCircle = new ThreadCircle(gp, newCircle);
-				threadCircle.start();
-
-				gp.addNewCircle(newCircle);
-
-				System.out.println("Component coords: x = " + bluePoint.getX() + ", y = " + bluePoint.getY()); //debug
+				
+				// Draw point:
+				drawPoint(cursor);
+				
+				// Debug:
+				System.out.println("Component coords: x = " + cursor.getX() + ", y = " + cursor.getY());
+				System.out.println("Component coords: x = " + bluePoint.getX() + ", y = " + bluePoint.getY());
 			}
 		});
 	}
+	
+	private void drawPoint(Point cursor)
+	{
+		// Create new Circle:
+		Circle newCircle = new Circle(cursor, 5);
+		
+		// Create new Thread:
+		ThreadCircle threadCircle = new ThreadCircle(gp, newCircle);
+		threadCircle.start();
+		
+		gp.addNewCircle(newCircle);
+	}
+	
 }

@@ -1,4 +1,6 @@
-package com.company;
+package com.company.client;
+
+import com.company.client.Convert;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -9,6 +11,7 @@ import java.net.SocketException;
 public class Client {
     
     private boolean running;
+    private boolean answer;
     
     private Thread listenThread;
     private DatagramSocket socket;
@@ -18,6 +21,7 @@ public class Client {
     private int portTo;
     
     {
+        answer = false;
         running = false;
     }
     
@@ -53,6 +57,11 @@ public class Client {
         running = true;
     }
     
+    public void stop()
+    {
+        running = false;
+    }
+    
     private void listen() throws IOException
     {
         int pacSize = 1;
@@ -68,27 +77,51 @@ public class Client {
             
             if (bool == true)
             {
-                System.out.println("true");
+                answer = true;
+                System.out.println("Answer: true");
+                
+                this.stop();
             }
             else
             {
-                System.out.println("false");
+                answer = false;
+                System.out.println("Answer: false");
+    
+                this.stop();
             }
         }
+        
+        this.stop();
+        System.out.println("this.stop();");
     }
     
-    public void send(byte[] data)
-    {
-        //assert (socket.isClosed()); // ?
+    public boolean send(byte[] data) {
         
         DatagramPacket packet = new DatagramPacket(data, data.length, this.address, this.portTo);
+        
         try
         {
+            long time_up = System.currentTimeMillis();
+            
             socket.send(packet);
+            this.start(); //wait answer
+            System.out.println("Wait answer..."); //Debug
+    
+            long difference = 0;
+            
+            while (running && difference < 1000)
+            {
+                // Wait 1000 ms = 1 s
+                difference = time_up - System.currentTimeMillis();
+            }
+            System.out.println("and???"); // ---
         }
         catch (IOException e)
         {
             e.printStackTrace();
         }
+        
+        this.stop();
+        return answer;
     }
 }
