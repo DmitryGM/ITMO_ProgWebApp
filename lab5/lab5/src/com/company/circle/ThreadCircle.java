@@ -1,4 +1,7 @@
-package com.company;
+package com.company.circle;
+
+import com.company.BlueArea;
+import com.company.GrahpicsPanel;
 
 import java.awt.*;
 
@@ -13,17 +16,16 @@ public class ThreadCircle extends Thread
 	this.gp = gp;
 	this.circle = circle;
 	this.radiusOld = gp.getRadius();
-}
+	}
 
 	@Override
-	public void run() {
-		
+	public void run()
+	{
 		gp.repaint();
 		Point cursor = circle.getCenterPoint();
 
-		// Transformation coordinates
-		Point center = new Point(gp.getWidth() / 2, gp.getHeight() / 2);
-		Point selectedPoint = new Point((int) cursor.getX() - (int) center.getX(), -((int) cursor.getY() - (int) center.getY()));
+		// Transformation coordinates:
+		Point selectedPoint = gp.pointToGP(cursor);
 
 		while (gp.getRadius() == radiusOld)
 		{

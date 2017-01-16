@@ -1,7 +1,7 @@
 package com.company;
 
+import com.company.circle.Circle;
 import com.company.client.Client;
-import com.company.client.Convert;
 
 import javax.swing.JPanel;
 import java.awt.*;
@@ -77,10 +77,10 @@ public class GrahpicsPanel extends JPanel {
 			Circle circle = (Circle) circleIterator.next();
 			
 			Point point = BlueArea.pointToBlueArea(circle.getCenterPoint(), this);
-			boolean answer = client.send(Convert.toByteArray(point.getX(), point.getY()));
+			//boolean answer = client.send(Convert.toByteArray(point.getX(), point.getY())); // Wait...
 			
 			//if (BlueArea.isInArea(BlueArea.pointToBlueArea(circle.getCenterPoint(), this), this))
-			//...
+			/*
 			if (answer == true) //send request to server
 			{
 				g2.setColor(Color.CYAN);
@@ -89,10 +89,19 @@ public class GrahpicsPanel extends JPanel {
 			{
 				g2.setColor(Color.PINK);
 			}
-
+			*/
+			//!----!//!----!//!----!//
+			
+			if (circle.getState() == Circle.State.Unknown)
+				g2.setColor(Color.ORANGE);
+			
+			if (circle.getState() == Circle.State.InArea)
+				g2.setColor(Color.CYAN);
+			
+			if (circle.getState() == Circle.State.OutArea)
+				g2.setColor(Color.PINK);
+			
 			g2.fill(circle);
-			System.out.println("break;"); // Debug
-			break;
 		}
 
 		// Lines:

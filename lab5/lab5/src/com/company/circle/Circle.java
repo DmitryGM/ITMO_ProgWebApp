@@ -1,4 +1,4 @@
-package com.company;
+package com.company.circle;
 
 import java.awt.Point;
 import java.awt.geom.Ellipse2D;
@@ -8,7 +8,15 @@ public class Circle extends Ellipse2D {
 
 	private Point point; // Center of circle
 	private double radius;
+	
+	public enum State {
+		InArea, OutArea, Unknown
+	}
+	private State state;
 
+	{
+		state = State.Unknown;
+	}
 	public Circle() {
 		
 		point = new Point();
@@ -26,6 +34,16 @@ public class Circle extends Ellipse2D {
 		this.radius = radius;
 	}
 
+	public void setState(State state)
+	{
+		this.state = state;
+	}
+	
+	public State getState()
+	{
+		return this.state;
+	}
+	
 	public double getRadius() {
 		
 		return radius;

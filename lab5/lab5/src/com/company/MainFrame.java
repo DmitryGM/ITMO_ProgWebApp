@@ -1,6 +1,9 @@
 package com.company;
 
+import com.company.circle.Circle;
+import com.company.circle.ThreadCircle;
 import com.company.client.Client;
+import com.company.client.Convert;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -55,8 +58,8 @@ public class MainFrame extends JFrame {
 		panelRight.setLayout(new BoxLayout(panelRight, BoxLayout.PAGE_AXIS));
 
 		this.add(panelRight, BorderLayout.EAST);
-		this.add(gp, BorderLayout.CENTER);
 		this.add(txt, BorderLayout.SOUTH);
+		this.add(gp, BorderLayout.CENTER);
 
 		panelRight.add(lst);
 
@@ -111,16 +114,17 @@ public class MainFrame extends JFrame {
 				
 				selectedPoint.y = k * gp.getRadius();
 				
-				// Output:
-				txt.setText("Your point: (" + selectedPoint.getX() + ", " + selectedPoint.getY() + ")");
-
 				// Transformation coordinates:
-				Point center = new Point(gp.getWidth() / 2, gp.getHeight() / 2);
-				
-				Point cursor = new Point((int) selectedPoint.getX() + (int) center.getX(), ((int) - selectedPoint.getY() + (int) center.getY()));
+				Point cursor = gp.pointToGP(selectedPoint);
 				
 				// Draw point:
-				drawPoint(cursor);
+				Circle circle = drawPoint(cursor);
+				
+				// Define state:
+				circle.setState(defineState(selectedPoint));
+				
+				// Output:
+				writeText(selectedPoint);
 				
 				// Debug:
 				System.out.println("Component coords: x = " + selectedPoint.getX() + ", y = " + selectedPoint.getY());
@@ -143,24 +147,35 @@ public class MainFrame extends JFrame {
 			@Override
 			public void mousePressed(MouseEvent e)
 			{
+				
 				Point cursor = e.getPoint();
 				
 				// Transformation coordinates:
-				Point bluePoint = BlueArea.pointToBlueArea(cursor, gp);
-				
-				txt.setText("Your point: (" + bluePoint.getX() + ", " + bluePoint.getY() + ")");
+				Point selectedPoint = BlueArea.pointToBlueArea(cursor, gp);
 				
 				// Draw point:
-				drawPoint(cursor);
+				Circle circle = drawPoint(cursor);
+				
+				// Define state:
+				circle.setState(defineState(selectedPoint));
+				
+				// Output:
+				writeText(selectedPoint);
 				
 				// Debug:
 				System.out.println("Component coords: x = " + cursor.getX() + ", y = " + cursor.getY());
-				System.out.println("Component coords: x = " + bluePoint.getX() + ", y = " + bluePoint.getY());
+				System.out.println("Component coords: x = " + selectedPoint.getX() + ", y = " + selectedPoint.getY());
 			}
 		});
 	}
 	
-	private void drawPoint(Point cursor)
+	private void writeText(Point point)
+	{
+		// Output:
+		txt.setText("Your point: (" + point.getX() + ", " + point.getY() + ")");
+	}
+	
+	private Circle drawPoint(Point cursor)
 	{
 		// Create new Circle:
 		Circle newCircle = new Circle(cursor, 5);
@@ -170,6 +185,22 @@ public class MainFrame extends JFrame {
 		threadCircle.start();
 		
 		gp.addNewCircle(newCircle);
+		
+		return newCircle;
 	}
 	
+	private Circle.State defineState(Point point)
+	{
+		
+		boolean answer = client.send(Convert.toByteArray(point.getX(), point.getY()));
+		
+		if (answer)
+		{
+			return Circle.State.InArea;
+		}
+		else
+		{
+			return Circle.State.OutArea;
+		}
+	}
 }
