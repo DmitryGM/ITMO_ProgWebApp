@@ -37,18 +37,20 @@ public class Server {
     
     public void start()
     {
-        listenThread = new Thread(() ->
+        new Thread(new Runnable()
         {
-            try
+            public void run()
             {
-                listen();
-            } catch (IOException e)
-            {
-                e.printStackTrace();
+                try
+                {
+                    listen();
+                } catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
             }
-        });
+        }).start();
         
-        listenThread.start(); //new Thread !
         running = true;
     }
     

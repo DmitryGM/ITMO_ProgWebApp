@@ -24,6 +24,7 @@ public class Main {
         //byte[] bytesDouble = Convert.toByteArray(13.0, 11.0);
         //client.send(bytesDouble);
         
-        SwingUtilities.invokeLater(() -> new MainFrame(client));
+        //SwingUtilities.invokeLater(() -> new MainFrame(client)); // //helios_fix:
+        new MainFrame(client);
     }
 }

@@ -3,7 +3,6 @@ package com.company;
 import com.company.circle.Circle;
 import com.company.circle.ThreadCircle;
 import com.company.client.Client;
-import com.company.client.Convert;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -13,6 +12,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class MainFrame extends JFrame {
 	
@@ -30,16 +31,26 @@ public class MainFrame extends JFrame {
 	private JCheckBox checkBox1;
 	private JCheckBox checkBox2;
 	
+	private Locale locale;
+	
 	public MainFrame(Client client) {
 		
 		this.client = client;
+		
 		initFrame();
+		
+		// Locale:
+		this.locale = new Locale.Builder().setLanguage("en").build();
+		ResourceBundle bundle = ResourceBundle.getBundle("com.company.bundle.Bundle", locale);
+		
+		this.btn.setLabel((String) bundle.getObject("Button"));
+		this.setTitle((String) bundle.getObject("Title"));
 	}
 
 	public void initFrame()	{
 		
 		this.setSize(600, 400);
-		this.setTitle("lab4; var-20108");
+		this.setTitle("lab5; var-20108");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null); //open window in center of screen
 		this.setVisible(true);
@@ -132,10 +143,10 @@ public class MainFrame extends JFrame {
 			@Override
 			public void stateChanged(ChangeEvent e)
 			{
-				int value = (int) spinner.getValue();
+				int value = (Integer) spinner.getValue(); //helios_fix: int -> Integer
 				if (value <= 2) spinner.setValue(100);
 
-				gp.setRadius((int) spinner.getValue());
+				gp.setRadius((Integer) spinner.getValue()); //helios_fix: int -> Integer
 				repaint();
 			}
 		});

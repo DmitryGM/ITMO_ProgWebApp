@@ -10,10 +10,12 @@ import java.util.Vector;
 public class GrahpicsPanel extends JPanel {
 
 	private int unit;
-	private Vector<Circle> circleVector;
+	private Vector<Circle> circles;
+	public Vector<Circle> circlesUnknown; // Unknown circles
 
 	{
-		circleVector = new Vector<Circle>();
+		circles = new Vector<Circle>();
+		circlesUnknown = new Vector<Circle>();
 		unit = 100;
 	}
 	public GrahpicsPanel() {}
@@ -25,7 +27,12 @@ public class GrahpicsPanel extends JPanel {
 
 	public void addNewCircle(Circle newCircle) {
 		
-		circleVector.add(newCircle);
+		circles.add(newCircle);
+	}
+	
+	public void addUnknownCircle(Circle circle)
+	{
+		circlesUnknown.add(circle);
 	}
 
 	public void setRadius(int unit) {
@@ -66,7 +73,7 @@ public class GrahpicsPanel extends JPanel {
 		}
 
 		// Circles:
-		for (Iterator circleIterator = circleVector.iterator(); circleIterator.hasNext() ; )
+		for (Iterator circleIterator = circles.iterator(); circleIterator.hasNext() ; )
 		{
 			Circle circle = (Circle) circleIterator.next();
 			

@@ -42,6 +42,9 @@ public class Client {
     
     public void start()
     {
+        /*
+        //helios_fix:
+        
         listenThread = new Thread(() ->
         {
             try
@@ -54,6 +57,22 @@ public class Client {
         });
         
         listenThread.start();
+        */
+        
+        new Thread(new Runnable()
+        {
+            public void run()
+            {
+                try
+                {
+                    listen();
+                } catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+        
         running = true;
     }
     

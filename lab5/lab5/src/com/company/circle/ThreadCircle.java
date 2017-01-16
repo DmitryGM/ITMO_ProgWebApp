@@ -6,20 +6,21 @@ import com.company.client.Client;
 import com.company.client.Convert;
 
 import java.awt.*;
+import java.util.Iterator;
+import java.util.Vector;
 
 public class ThreadCircle extends Thread
 {
 	private Circle circle;
 	private GrahpicsPanel gp;
-	private int radiusOld;
 	private Client client;
+	
 
 	public ThreadCircle(GrahpicsPanel gp, Circle circle, Client client) {
 	
 		this.gp = gp;
 		this.circle = circle;
 		this.client = client;
-		this.radiusOld = gp.getRadius();
 	}
 	
 	@Override
@@ -35,14 +36,40 @@ public class ThreadCircle extends Thread
 		// Define state
 		Circle.State state = defineState(selectedPoint); // Waiting...
 		circle.setState(state);
+		gp.repaint();
 		
 		if (state == Circle.State.Unknown)
 		{
-			
+			gp.addUnknownCircle(circle);
+		}
+		else
+		{
+			// Redrawing:
+			redrawing();
+			gp.repaint();
 		}
 		
-		gp.repaint();
 		System.out.println("hello from run( out )"); // Debug
+	}
+	
+	private synchronized void redrawing()
+	{
+		if (gp.circlesUnknown.isEmpty()) return;
+		
+		for (Iterator circleIterator = gp.circlesUnknown.iterator(); circleIterator.hasNext() ; )
+		{
+			Circle circle = (Circle) circleIterator.next();
+			Point cursor = circle.getCenterPoint();
+			
+			// Transformation coordinates:
+			Point selectedPoint = BlueArea.pointToBlueArea(cursor, gp);
+			
+			// Define state
+			Circle.State state = defineState(selectedPoint); // Waiting...
+			circle.setState(state);
+		}
+		
+		gp.circlesUnknown.clear();
 	}
 	
 	private synchronized Circle.State defineState(Point point)
