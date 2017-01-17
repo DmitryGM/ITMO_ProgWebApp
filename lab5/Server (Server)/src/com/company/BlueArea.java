@@ -4,9 +4,8 @@ import java.awt.*;
 
 public class BlueArea {
 	
-	public static boolean isInArea(Point point, GrahpicsPanel gp) {
+	public static boolean isInArea(Point point, double radius) {
 		
-		int radius = gp.getRadius();
 		int x = point.x;
 		int y = point.y;
 
@@ -32,15 +31,5 @@ public class BlueArea {
 		}
 		
 		return false;
-	}
-
-	public static Point pointToBlueArea(Point point, GrahpicsPanel gp) {
-		
-		// Transformation point to BlueArea
-		
-		Point center = new Point(gp.getWidth() / 2, gp.getHeight() / 2);
-		Point transformPoint =  new Point((int) (point.getX() - center.getX()), -(int) (point.getY() - center.getY()));
-		
-		return transformPoint;
 	}
 }

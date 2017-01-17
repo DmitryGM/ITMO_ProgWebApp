@@ -1,5 +1,6 @@
 package com.company;
 
+import java.awt.*;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -71,7 +72,7 @@ public class Server {
             double d1 = doubles[0];
             double d2 = doubles[1];
             
-            if (d1*d1 + d2*d2 < 10*10)
+            if (BlueArea.isInArea(new Point((int)d1, (int)d2), 100))
             {
                 send(new byte[]{1}, InetAddress.getByName("localhost"), clientPort); //Answer
             }
