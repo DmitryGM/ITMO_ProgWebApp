@@ -40,11 +40,11 @@ public class MainFrame extends JFrame {
 		initFrame();
 		
 		// Locale:
-		this.locale = new Locale.Builder().setLanguage("en").build();
-		ResourceBundle bundle = ResourceBundle.getBundle("com.company.bundle.Bundle", locale);
+		//this.locale = new Locale.Builder().setLanguage("en").build();
+		//ResourceBundle bundle = ResourceBundle.getBundle("com.company.bundle.Bundle", locale);
 		
-		this.btn.setLabel((String) bundle.getObject("Button"));
-		this.setTitle((String) bundle.getObject("Title"));
+		//this.btn.setLabel((String) bundle.getObject("Button"));
+		//this.setTitle((String) bundle.getObject("Title"));
 	}
 
 	public void initFrame()	{
