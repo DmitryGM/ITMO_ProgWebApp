@@ -27,26 +27,30 @@ public class ThreadCircle extends Thread
 	public void run()
 	{
 		System.out.println("hello from run( in )"); // Debug
-		
-		Point cursor = circle.getCenterPoint();
-		
-		// Transformation coordinates:
-		Point selectedPoint = BlueArea.pointToBlueArea(cursor, gp);
-		
-		// Define state
-		Circle.State state = defineState(selectedPoint); // Waiting...
-		circle.setState(state);
-		gp.repaint();
-		
-		if (state == Circle.State.Unknown)
-		{
-			gp.addUnknownCircle(circle);
+
+		if(circle != null) {
+			Point cursor = circle.getCenterPoint();
+
+			// Transformation coordinates:
+			Point selectedPoint = BlueArea.pointToBlueArea(cursor, gp);
+
+			// Define state
+			Circle.State state = defineState(selectedPoint, gp.getRadius()); // Waiting...
+			circle.setState(state);
+			gp.repaint();
+
+
+			if (state == Circle.State.Unknown) {
+				gp.addUnknownCircle(circle);
+			} else {
+				// Redrawing:
+				redrawing();
+				gp.repaint();
+			}
 		}
 		else
 		{
-			// Redrawing:
 			redrawing();
-			gp.repaint();
 		}
 		
 		System.out.println("hello from run( out )"); // Debug
@@ -65,15 +69,15 @@ public class ThreadCircle extends Thread
 			Point selectedPoint = BlueArea.pointToBlueArea(cursor, gp);
 			
 			// Define state
-			Circle.State state = defineState(selectedPoint); // Waiting...
+			Circle.State state = defineState(selectedPoint, gp.getRadius()); // Waiting...
 			circle.setState(state);
 		}
 		
 		gp.circlesUnknown.clear();
 	}
 	
-	private synchronized Circle.State defineState(Point point)
+	private synchronized Circle.State defineState(Point point, int radius)
 	{
-		return client.send(Convert.toByteArray(point.getX(), point.getY()));
+		return client.send(Convert.toByteArray(point.getX(), point.getY(), (double)radius));
 	}
 }

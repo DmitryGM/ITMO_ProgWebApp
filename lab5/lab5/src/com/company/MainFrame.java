@@ -25,35 +25,41 @@ public class MainFrame extends JFrame {
 	private Button btn;
 	private JList lst;
 	private JPanel panelRight;
-	
+	private ButtonGroup buttonGroup;
+	private JRadioButton radioButtonEn;
+	private JRadioButton radioButtonFr;
+
 	private JCheckBox checkBoxM;
 	private JCheckBox checkBox0;
 	private JCheckBox checkBox1;
 	private JCheckBox checkBox2;
+
 	
 	private Locale locale;
 	
 	public MainFrame(Client client) {
 		
 		this.client = client;
-		
+
+		// Init Frame:
 		initFrame();
-		
-		// Locale:
-		//this.locale = new Locale.Builder().setLanguage("en").build();
-		//ResourceBundle bundle = ResourceBundle.getBundle("com.company.bundle.Bundle", locale);
-		
-		//this.btn.setLabel((String) bundle.getObject("Button"));
-		//this.setTitle((String) bundle.getObject("Title"));
+
+		// Set locale:
+		localization(new Locale("en"));
 	}
 
 	public void initFrame()	{
-		
+
 		this.setSize(600, 400);
+		this.setResizable(false);
 		this.setTitle("lab5; var-20108");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null); //open window in center of screen
 		this.setVisible(true);
+
+		this.buttonGroup = new ButtonGroup();
+		this.radioButtonEn = new JRadioButton("English");
+		this.radioButtonFr = new JRadioButton("French");
 
 		this.setLayout(new BorderLayout());
 
@@ -86,6 +92,11 @@ public class MainFrame extends JFrame {
 
 		panelRight.add(btn);
 		panelRight.add(spinner);
+		panelRight.add(radioButtonEn);
+		panelRight.add(radioButtonFr);
+
+		buttonGroup.add(radioButtonEn);
+		buttonGroup.add(radioButtonFr);
 
 		checkBoxM.setText("y <= 0");
 		checkBox0.setText("y += R");
@@ -147,6 +158,22 @@ public class MainFrame extends JFrame {
 				if (value <= 2) spinner.setValue(100);
 
 				gp.setRadius((Integer) spinner.getValue()); //helios_fix: int -> Integer
+
+				//gp.circlesUnknown.addAll(gp.circles);
+
+				// bad code; write iterator
+				for (int i = 0; i < gp.circles.size(); i++)
+				{
+					if (!gp.circlesUnknown.contains(gp.circles.get(i))) {
+
+						gp.circlesUnknown.add(gp.circles.get(i));
+					}
+				}
+
+				// Create new Thread:
+				ThreadCircle threadCircle = new ThreadCircle(gp, null, client);
+				threadCircle.start();
+
 				repaint();
 			}
 		});
@@ -171,6 +198,22 @@ public class MainFrame extends JFrame {
 				System.out.println("Component coords: x = " + selectedPoint.getX() + ", y = " + selectedPoint.getY());
 			}
 		});
+
+		radioButtonEn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				localization(new Locale("en"));
+			}
+		});
+
+		radioButtonFr.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				localization(new Locale("fr"));
+			}
+		});
 	}
 	
 	private void writeText(Point point)
@@ -189,5 +232,19 @@ public class MainFrame extends JFrame {
 		threadCircle.start();
 		
 		gp.addNewCircle(newCircle);
+	}
+
+	private void localization(Locale locale)
+	{
+		this.locale = locale;
+
+		// Locale:
+		ResourceBundle bundle = ResourceBundle.getBundle("com.company.bundle.Bundle", locale); //com.company.bundle.Bundle
+
+		this.btn.setLabel((String) bundle.getObject("Button"));
+		this.setTitle((String) bundle.getObject("Title"));
+
+		// Debug:
+		System.out.println((String) bundle.getObject("Button"));
 	}
 }

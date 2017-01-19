@@ -16,15 +16,17 @@ public class Server {
     
     private int port; // my server port
     private int clientPort;
+    private InetAddress clientAdress;
     
     {
         running = false;
     }
     
-    public Server(int port, int clientPort)
+    public Server(InetAddress clientAdress, int port, int clientPort)
     {
         this.port = port;
         this.clientPort = clientPort;
+        this.clientAdress = clientAdress;
         
         try
         {
@@ -56,7 +58,7 @@ public class Server {
     
     private void listen() throws IOException
     {
-        int pacSize = 2*8;
+        int pacSize = 3*8; // 2 -> 3
         byte data[] = new byte[pacSize];
         
         DatagramPacket packet = new DatagramPacket(data, data.length);
@@ -65,19 +67,20 @@ public class Server {
         {
             socket.receive(packet);
     
-            Double[] doubles = new Double[2];
+            Double[] doubles = new Double[3]; // 2 -> 3
             Convert.toDouble(data, doubles);
             
             double d1 = doubles[0];
             double d2 = doubles[1];
+            double d3 = doubles[2];
             
-            if (BlueArea.isInArea(new Point((int)d1, (int)d2), 100))
+            if (BlueArea.isInArea(new Point((int)d1, (int)d2), (int)d3))
             {
-                send(new byte[]{1}, InetAddress.getByName("localhost"), clientPort); //Answer
+                send(new byte[]{1}, clientAdress, clientPort); //Answer
             }
             else
             {
-                send(new byte[]{0}, InetAddress.getByName("localhost"), clientPort); //Answer
+                send(new byte[]{0}, clientAdress, clientPort); //Answer
             }
         }
     }

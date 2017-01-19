@@ -1,5 +1,6 @@
 package com.company;
 
+import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 public class Main {
@@ -8,8 +9,9 @@ public class Main {
     {
         int portServer = 7788;
         int clientPort = 7787;
-        
-        Server server = new Server(portServer, clientPort);
+        InetAddress clientAdress = InetAddress.getByName("77.234.212.37"); //ITMO IP
+
+        Server server = new Server(clientAdress, portServer, clientPort);
         server.start();
                         
         System.out.println("Server start");

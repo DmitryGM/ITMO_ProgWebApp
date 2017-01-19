@@ -3,25 +3,14 @@ package com.company.client;
 import java.nio.ByteBuffer;
 
 public class Convert {
-    
-    public static byte[] toByteArray(double value) {
+
+    public static byte[] toByteArray(double value1, double value2, double value3) {
         
-        byte[] bytes = new byte[8];
-        ByteBuffer.wrap(bytes).putDouble(value);
-        return bytes;
-    }
-    
-    public static byte[] toByteArray(double value1, double value2) {
-        
-        byte[] bytes = new byte[2*8];
+        byte[] bytes = new byte[3*8]; // 2 -> 3
         ByteBuffer.wrap(bytes, 0, 8).putDouble(value1);
-        ByteBuffer.wrap(bytes, 8, 8).putDouble(value2); // Ok ?!
+        ByteBuffer.wrap(bytes, 8, 8).putDouble(value2);
+        ByteBuffer.wrap(bytes, 16, 8).putDouble(value3); //???
         return bytes;
-    }
-    
-    public static double toDouble(byte[] bytes) {
-        
-        return ByteBuffer.wrap(bytes).getDouble();
     }
     
     public static Boolean toBoolean(byte[] data)

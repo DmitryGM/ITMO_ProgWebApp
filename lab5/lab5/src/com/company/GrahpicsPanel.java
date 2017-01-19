@@ -10,7 +10,7 @@ import java.util.Vector;
 public class GrahpicsPanel extends JPanel {
 
 	private int unit;
-	private Vector<Circle> circles;
+	public Vector<Circle> circles;
 	public Vector<Circle> circlesUnknown; // Unknown circles
 
 	{
