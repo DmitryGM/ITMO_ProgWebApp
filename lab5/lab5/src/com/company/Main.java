@@ -11,9 +11,9 @@ public class Main {
     
     public static void main(String[] args) throws UnknownHostException
     {
-        int portServer = 7788;
+        int portServer = 7788; // 7788 -> 3333
         int clientPort = 7787;
-        InetAddress address = InetAddress.getByName("localhost"); //address to
+        InetAddress address = InetAddress.getByName("localhost"); //address to // localhost -> helios.cs.ifmo.ru (77.234.214.82)
         
         Client client = new Client(portServer, clientPort, address);
         

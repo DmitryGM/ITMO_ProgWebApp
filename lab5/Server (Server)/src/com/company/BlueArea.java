@@ -9,14 +9,14 @@ public class BlueArea {
 		int x = point.x;
 		int y = point.y;
 
-		// 1-quarter +
+		// 1-quarter
 		if (x >= 0 && y >= 0)
 		{
 			if (x*x + y*y <= radius*radius/4)
 				return true;
 		}
 		
-		// 2-quarter +
+		// 2-quarter
 		if (x <= 0 && y >= 0)
 		{
 			if (x >= -radius/2 && y <= radius)

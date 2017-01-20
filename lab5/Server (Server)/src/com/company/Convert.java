@@ -5,11 +5,10 @@ import java.nio.ByteBuffer;
 public class Convert {
     
     public static void toDouble(byte[] bytes, Double[] doubles) {
-
-
+        
         double d1 = ByteBuffer.wrap(bytes, 0, 8).getDouble();
         double d2 = ByteBuffer.wrap(bytes, 8, 8).getDouble();
-        double d3 = ByteBuffer.wrap(bytes, 16, 8).getDouble(); //!!!
+        double d3 = ByteBuffer.wrap(bytes, 16, 8).getDouble();
 
         // Debug
         System.out.println("d1 = " + d1 + "; d2 = " + d2 + "; d3 = " + d3);

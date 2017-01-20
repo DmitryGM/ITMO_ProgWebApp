@@ -14,7 +14,7 @@ public class Server {
     private Thread listenThread;
     private DatagramSocket socket;
     
-    private int port; // my server port
+    private int serverPort; // my server port
     private int clientPort;
     private InetAddress clientAdress;
     
@@ -22,15 +22,15 @@ public class Server {
         running = false;
     }
     
-    public Server(InetAddress clientAdress, int port, int clientPort)
+    public Server(InetAddress clientAdress, int serverPort, int clientPort)
     {
-        this.port = port;
+        this.serverPort = serverPort;
         this.clientPort = clientPort;
         this.clientAdress = clientAdress;
         
         try
         {
-            socket = new DatagramSocket(this.port);
+            socket = new DatagramSocket(serverPort);
         } catch (SocketException e)
         {
             e.printStackTrace();
