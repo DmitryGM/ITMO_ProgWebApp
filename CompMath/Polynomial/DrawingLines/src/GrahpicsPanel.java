@@ -22,6 +22,11 @@ public class GrahpicsPanel extends JPanel {
 	{
 		circleVector.add(newCircle);
 	}
+	
+	public void removeCircle(Circle circle)
+	{
+		circleVector.remove(circle);
+	}
 
 	public void setUnit(int unit)
 	{
@@ -94,6 +99,7 @@ public class GrahpicsPanel extends JPanel {
 		//FUN:
 		Vector<Double> pointVector = plane.xPointVector;
 
+		// Debug
 		System.out.println(pointVector);
 
 		x1Last = 0;
@@ -155,6 +161,7 @@ public class GrahpicsPanel extends JPanel {
 			g2.fill(circle);
 		}
 
-		System.out.println("paint(!2)");
+		// Debug
+		System.out.println("Exit from paint()");
 	}
 }

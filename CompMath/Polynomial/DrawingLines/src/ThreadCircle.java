@@ -14,18 +14,11 @@ public class ThreadCircle extends Thread
 	@Override
 	public void run()
 	{
-		Point cursor = circle.getCenterPoint();
-
-		//Преобразование координат
-		Point center = new Point(gp.getWidth() / 2, gp.getHeight() / 2);
-		Point selectedPoint = new Point((int) cursor.getX() - (int) center.getX(), -((int) cursor.getY() - (int) center.getY()));
-
-		//Drawing
-
+		// Drawing
 		while(circle.getRadius() >= 0)
 		{
-			//Рисуем тут Круги)
-			circle.setRadius(circle.getRadius() - 1); //Уменьшаем
+			// Deawing circles
+			circle.setRadius(circle.getRadius() - 1);
 
 			gp.repaint();
 
@@ -38,9 +31,8 @@ public class ThreadCircle extends Thread
 				e.printStackTrace();
 			}
 		}
-
-		circle.setRadius(0);
-
-		gp.repaint(); //?!
+		
+		gp.removeCircle(circle);
+		gp.repaint();
 	}
 }
